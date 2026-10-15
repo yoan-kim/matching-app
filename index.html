@@ -44,7 +44,7 @@
       align-items: center;
     }
 
-    /* 한국어 보조 번역 공통 스타일 */
+    /* 한국어 보조 번역 스타일 */
     .ko-sub {
       display: block;
       font-size: 12.5px;
@@ -62,7 +62,7 @@
       margin-left: 4px;
     }
 
-    /* 상단 iOS 스타일 네비게이션 바 */
+    /* 상단 네비게이션 바 */
     header {
       position: sticky;
       top: 0;
@@ -143,7 +143,6 @@
       }
     }
 
-    /* 타이틀 영역 */
     .hero-section {
       margin-bottom: 22px;
     }
@@ -181,7 +180,7 @@
       color: var(--text-primary);
     }
 
-    /* 1페이지: 4x4 그리드 (4~19명) */
+    /* 1단계: 4x4 그리드 (4~19명) */
     .grid-16 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -234,7 +233,7 @@
       margin-top: 1px;
     }
 
-    /* 2페이지: 설명 카드 */
+    /* 2단계: 설명 카드 */
     .apple-card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
@@ -279,34 +278,6 @@
 
     .guide-text strong {
       font-weight: 600;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border-light);
-      margin: 20px 0;
-    }
-
-    .number-preview-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-
-    .number-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .num-chip {
-      background: var(--bg-subtle);
-      color: var(--text-primary);
-      font-size: 13.5px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 999px;
     }
 
     /* 액션 버튼 */
@@ -382,7 +353,7 @@
       background: var(--bg-subtle);
     }
 
-    /* 3페이지: POR GRUPO 헤더 행 및 우측 순서 새로고침 버튼 */
+    /* 3단계: POR GRUPO 헤더 행 및 우측 순서 새로고침 버튼 */
     .section-header-row {
       display: flex;
       align-items: center;
@@ -477,7 +448,6 @@
       gap: 8px;
     }
 
-    /* 각 멤버 아이템 (번호 + Primero/Segundo/Tercero) */
     .member-box {
       background: var(--bg-subtle);
       border-radius: 14px;
@@ -512,7 +482,7 @@
       margin-top: 1px;
     }
 
-    /* Primero 전용 빨간색 강조 스타일 */
+    /* Primero 전용 빨간색 강조 */
     .member-box.is-primero {
       background: var(--accent-red-bg);
       border-color: rgba(255, 59, 48, 0.28);
@@ -535,7 +505,7 @@
 </head>
 <body>
 
-  <!-- 상단 고정 바 -->
+  <!-- 상단 헤더 -->
   <header>
     <div class="nav-container">
       <div class="nav-title">
@@ -568,7 +538,7 @@
       <div id="count-grid" class="grid-16"></div>
     </section>
 
-    <!-- 2단계: 번호 배정 안내 -->
+    <!-- 2단계: 번호 배정 안내 (참가자 번호목록 완전 제거) -->
     <section id="page-2" class="page">
       <div class="hero-section">
         <div class="step-label">
@@ -609,14 +579,6 @@
             </div>
           </div>
         </div>
-
-        <div class="divider"></div>
-
-        <div class="number-preview-label">
-          Números en juego
-          <span class="ko-sub">참가 번호 목록</span>
-        </div>
-        <div id="number-chips" class="number-chips"></div>
       </div>
 
       <button class="primary-btn" onclick="startMatching()">
@@ -647,7 +609,6 @@
         <span class="btn-ko">팀 구성 새로고침</span>
       </button>
 
-      <!-- POR GRUPO 행 + 우측 순서 새로고침 버튼 -->
       <div class="section-header-row">
         <div class="section-header-title">
           Por grupo
@@ -665,9 +626,7 @@
 
   <script>
     let totalPeople = 0;
-    // 현재 구성된 그룹 배열 (예: [[1, 4], [2, 3, 5]])
     let currentTeams = [];
-    // 각 그룹별 순서가 섞인 상태 저장
     let currentTeamOrders = [];
 
     const orderLabels = [
@@ -676,7 +635,7 @@
       { es: 'Tercero', ko: '세 번째', isFirst: false }
     ];
 
-    // 1페이지: 4~19명 버튼 생성 (4x4 = 16칸)
+    // 1단계 그리드 초기화
     function initGrid() {
       const grid = document.getElementById('count-grid');
       grid.innerHTML = '';
@@ -693,7 +652,6 @@
       }
     }
 
-    // 페이지 전환
     function showPage(pageNumber) {
       document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
@@ -702,7 +660,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 홈으로 이동
     function goHome() {
       totalPeople = 0;
       currentTeams = [];
@@ -710,25 +667,13 @@
       showPage(1);
     }
 
-    // 인원수 선택 후 2페이지 이동
     function selectCount(count) {
       totalPeople = count;
       document.getElementById('selected-count-es').textContent = count;
       document.getElementById('selected-count-ko').textContent = count;
-
-      const chipsContainer = document.getElementById('number-chips');
-      chipsContainer.innerHTML = '';
-      for (let i = 1; i <= count; i++) {
-        const chip = document.createElement('span');
-        chip.className = 'num-chip';
-        chip.textContent = `N.º ${i} (${i}번)`;
-        chipsContainer.appendChild(chip);
-      }
-
       showPage(2);
     }
 
-    // 2페이지에서 짝꿍 정하기 클릭 시
     function startMatching() {
       document.getElementById('result-count-es').textContent = totalPeople;
       document.getElementById('result-count-ko').textContent = totalPeople;
@@ -736,7 +681,6 @@
       showPage(3);
     }
 
-    // 배열 무작위 섞기 (Fisher-Yates)
     function shuffleArray(arr) {
       const copy = [...arr];
       for (let i = copy.length - 1; i > 0; i--) {
@@ -746,7 +690,6 @@
       return copy;
     }
 
-    // 새로운 팀 구성 생성 + 각 팀 내 순서 무작위 배정
     function generateNewTeams() {
       const numbers = Array.from({ length: totalPeople }, (_, i) => i + 1);
       const shuffled = shuffleArray(numbers);
@@ -768,10 +711,8 @@
       renderTeams();
     }
 
-    // 팀 구성은 유지하고 각 팀 내의 Primero/Segundo/Tercero만 랜덤 재배정
     function assignRandomOrdersToTeams() {
       currentTeamOrders = currentTeams.map(team => {
-        // 팀 인원수(2명 또는 3명)에 맞춰 인덱스(0, 1 또는 0, 1, 2)를 무작위로 섞음
         const orderIndices = shuffleArray(Array.from({ length: team.length }, (_, i) => i));
         return team.map((memberNum, idx) => ({
           num: memberNum,
@@ -780,14 +721,12 @@
       });
     }
 
-    // "Cambiar orden" 버튼 클릭 시 실행 (팀 구성 고정, 팀 내 순서만 변경)
     function shuffleOrdersOnly() {
       if (!currentTeams.length) return;
       assignRandomOrdersToTeams();
       renderTeams();
     }
 
-    // 화면에 그룹 카드 렌더링
     function renderTeams() {
       const teamsList = document.getElementById('teams-list');
       teamsList.innerHTML = '';
