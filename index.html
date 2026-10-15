@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es-EC">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Armar Parejas</title>
+  <style>
+    :root {
+      --bg-primary: #F5F5F7;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #EFEFF4;
+      --text-primary: #1D1D1F;
+      --text-secondary: #86868B;
+      --text-tertiary: #A1A1A6;
+      --border-light: rgba(0, 0, 0, 0.08);
+      --accent-dark: #1D1D1F;
+      --accent-hover: #333336;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 상단 iOS 스타일 네비게이션 바 */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: rgba(245, 245, 247, 0.82);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-container {
+      max-width: 480px;
+      margin: 0 auto;
+      height: 56px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .home-btn {
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .home-btn:active {
+      transform: scale(0.96);
+      background: var(--bg-subtle);
+    }
+
+    /* 메인 컨테이너 */
+    main {
+      width: 100%;
+      max-width: 480px;
+      padding: 28px 20px 48px;
+      flex: 1;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 타이틀 영역 */
+    .hero-section {
+      margin-bottom: 24px;
+    }
+
+    .step-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    .page-subtitle {
+      margin-top: 8px;
+      font-size: 15px;
+      line-height: 1.45;
+      color: var(--text-secondary);
+    }
+
+    /* 1페이지: 4x4 그리드 (4~19명) */
+    .grid-16 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .count-btn {
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .count-btn:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .count-btn:active {
+      transform: scale(0.95);
+      background: var(--bg-subtle);
+    }
+
+    .count-num {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .count-unit {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* 2페이지: 설명 카드 */
+    .apple-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-light);
+      margin-bottom: 20px;
+    }
+
+    .guide-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .guide-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .guide-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .guide-text {
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+
+    .guide-text strong {
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 20px 0;
+    }
+
+    .number-preview-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .number-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .num-chip {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    /* 메인 액션 버튼 */
+    .primary-btn {
+      width: 100%;
+      appearance: none;
+      border: none;
+      background: var(--accent-dark);
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .primary-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .primary-btn:active {
+      transform: scale(0.98);
+    }
+
+    .secondary-btn {
+      width: 100%;
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .secondary-btn:active {
+      transform: scale(0.98);
+      background: var(--bg-subtle);
+    }
+
+    /* 3페이지: 매칭 결과 */
+    .section-header {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 24px 0 12px;
+    }
+
+    .teams-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .team-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .team-members {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .member-pill {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 999px;
+      min-width: 54px;
+      text-align: center;
+    }
+
+    /* 번호순 조회 리스트 */
+    .lookup-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lookup-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 15px;
+    }
+
+    .lookup-row:last-child {
+      border-bottom: none;
+    }
+
+    .lookup-me {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .lookup-info {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .lookup-info strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 고정 바 (우측 상단 홈 버튼 포함) -->
+  <header>
+    <div class="nav-container">
+      <div class="nav-title">Parejas</div>
+      <button class="home-btn" onclick="goHome()" aria-label="Ir al inicio">
+        <span>Inicio</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1단계: 인원수 선택 (4~19명, 4x4 그리드) -->
+    <section id="page-1" class="page active">
+      <div class="hero-section">
+        <div class="step-label">Paso 1</div>
+        <h1 class="page-title">¿Cuántos somos?</h1>
+        <p class="page-subtitle">Elige el total de personas para armar las parejas.</p>
+      </div>
+
+      <div id="count-grid" class="grid-16"></div>
+    </section>
+
+    <!-- 2단계: 번호 배정 안내 -->
+    <section id="page-2" class="page">
+      <div class="hero-section">
+        <div class="step-label">Paso 2 · <span id="selected-count-label"></span> personas</div>
+        <h1 class="page-title">Recuerda tu número</h1>
+        <p class="page-subtitle">Así nos numeramos antes de sortear.</p>
+      </div>
+
+      <div class="apple-card">
+        <div class="guide-list">
+          <div class="guide-item">
+            <div class="guide-badge">1</div>
+            <p class="guide-text">
+              La persona que tiene el celu ahorita es el <strong>número 1</strong>.
+            </p>
+          </div>
+          <div class="guide-item">
+            <div class="guide-badge">2</div>
+            <p class="guide-text">
+              Quien está a su mano derecha es el <strong>2</strong>, y así siguen <strong>3, 4, 5, 6...</strong> en orden.
+            </p>
+          </div>
+          <div class="guide-item">
+            <div class="guide-badge">!</div>
+            <p class="guide-text">
+              <strong>¡Pónganse pilas y acuérdense de su número!</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="number-preview-label">Números en juego</div>
+        <div id="number-chips" class="number-chips"></div>
+      </div>
+
+      <button class="primary-btn" onclick="startMatching()">
+        <span>Armar parejas</span>
+      </button>
+    </section>
+
+    <!-- 3단계: 짝꿍 결과 및 새로고침 -->
+    <section id="page-3" class="page">
+      <div class="hero-section">
+        <div class="step-label">Resultado · <span id="result-count-label"></span> personas</div>
+        <h1 class="page-title">Parejas listas</h1>
+        <p class="page-subtitle">Si quieren cambiar, dale al botón de abajo para sortear otra vez.</p>
+      </div>
+
+      <button class="secondary-btn" onclick="renderResults()">
+        <span>↻ Mezclar de nuevo</span>
+      </button>
+
+      <div class="section-header">Por grupo</div>
+      <div id="teams-list" class="teams-container"></div>
+
+      <div class="section-header">Buscar por mi número</div>
+      <div id="lookup-list" class="lookup-card"></div>
+    </section>
+  </main>
+
+  <script>
+    let totalPeople = 0;
+
+    // 1페이지 4~19명 버튼 생성 (4x4 = 16칸)
+    function initGrid() {
+      const grid = document.getElementById('count-grid');
+      grid.innerHTML = '';
+      for (let i = 4; i <= 19; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'count-btn';
+        btn.innerHTML = `
+          <span class="count-num">${i}</span>
+          <span class="count-unit">personas</span>
+        `;
+        btn.onclick = () => selectCount(i);
+        grid.appendChild(btn);
+      }
+    }
+
+    // 페이지 전환 함수
+    function showPage(pageNumber) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(`page-${pageNumber}`).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 우측 상단 홈(Inicio) 버튼
+    function goHome() {
+      totalPeople = 0;
+      showPage(1);
+    }
+
+    // 인원 선택 시 2페이지로 이동
+    function selectCount(count) {
+      totalPeople = count;
+      document.getElementById('selected-count-label').textContent = count;
+
+      const chipsContainer = document.getElementById('number-chips');
+      chipsContainer.innerHTML = '';
+      for (let i = 1; i <= count; i++) {
+        const chip = document.createElement('span');
+        chip.className = 'num-chip';
+        chip.textContent = `N.º ${i}`;
+        chipsContainer.appendChild(chip);
+      }
+
+      showPage(2);
+    }
+
+    // 2페이지에서 짝꿍 정하기 클릭 시
+    function startMatching() {
+      document.getElementById('result-count-label').textContent = totalPeople;
+      renderResults();
+      showPage(3);
+    }
+
+    // 무작위 셔플 (Fisher-Yates)
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // 둘·둘·셋 매칭 및 화면 렌더링
+    function renderResults() {
+      const numbers = Array.from({ length: totalPeople }, (_, i) => i + 1);
+      const shuffled = shuffleArray(numbers);
+
+      const teams = [];
+      let idx = 0;
+
+      while (idx < shuffled.length) {
+        // 남은 인원이 3명이면 마지막 팀을 3명으로 편성
+        if (shuffled.length - idx === 3) {
+          teams.push(shuffled.slice(idx, idx + 3).sort((a, b) => a - b));
+          break;
+        } else {
+          teams.push(shuffled.slice(idx, idx + 2).sort((a, b) => a - b));
+          idx += 2;
+        }
+      }
+
+      // 1. 그룹별 카드 렌더링
+      const teamsList = document.getElementById('teams-list');
+      teamsList.innerHTML = '';
+
+      // 번호순 조회를 위한 매핑 데이터 저장
+      const memberMap = {};
+
+      teams.forEach((team, index) => {
+        const groupNum = index + 1;
+        const card = document.createElement('div');
+        card.className = 'team-card';
+
+        const membersHtml = team
+          .map(num => `<span class="member-pill">${num}</span>`)
+          .join('');
+
+        card.innerHTML = `
+          <div class="team-name">Grupo ${groupNum}</div>
+          <div class="team-members">${membersHtml}</div>
+        `;
+        teamsList.appendChild(card);
+
+        team.forEach(num => {
+          const partners = team.filter(n => n !== num);
+          memberMap[num] = {
+            groupNum,
+            partners
+          };
+        });
+      });
+
+      // 2. 번호순(1번~N번) 조회 리스트 렌더링
+      const lookupList = document.getElementById('lookup-list');
+      lookupList.innerHTML = '';
+
+      for (let num = 1; num <= totalPeople; num++) {
+        const info = memberMap[num];
+        const partnerText = info.partners.join(' y ');
+        const row = document.createElement('div');
+        row.className = 'lookup-row';
+        row.innerHTML = `
+          <span class="lookup-me">N.º ${num}</span>
+          <span class="lookup-info">Grupo ${info.groupNum} · con <strong>${partnerText}</strong></span>
+        `;
+        lookupList.appendChild(row);
+      }
+    }
+
+    initGrid();
+  </script>
+</body>
+</html>
