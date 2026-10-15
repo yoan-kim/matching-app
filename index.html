@@ -14,6 +14,8 @@
       --text-primary: #1D1D1F;
       --text-secondary: #86868B;
       --text-tertiary: #A1A1A6;
+      --accent-red: #FF3B30;
+      --accent-red-bg: rgba(255, 59, 48, 0.1);
       --border-light: rgba(0, 0, 0, 0.08);
       --accent-dark: #1D1D1F;
       --accent-hover: #333336;
@@ -42,6 +44,24 @@
       align-items: center;
     }
 
+    /* 한국어 보조 번역 공통 스타일 */
+    .ko-sub {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    .ko-inline {
+      font-size: 11.5px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+
     /* 상단 iOS 스타일 네비게이션 바 */
     header {
       position: sticky;
@@ -57,7 +77,7 @@
     .nav-container {
       max-width: 480px;
       margin: 0 auto;
-      height: 56px;
+      height: 58px;
       padding: 0 20px;
       display: flex;
       align-items: center;
@@ -69,6 +89,8 @@
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--text-primary);
+      display: flex;
+      align-items: baseline;
     }
 
     .home-btn {
@@ -76,14 +98,14 @@
       border: 1px solid var(--border-light);
       background: var(--bg-card);
       color: var(--text-primary);
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
       padding: 7px 14px;
       border-radius: 999px;
       cursor: pointer;
       display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      align-items: baseline;
+      gap: 4px;
       box-shadow: var(--shadow-sm);
       transition: transform 0.15s ease, background-color 0.15s ease;
     }
@@ -97,7 +119,7 @@
     main {
       width: 100%;
       max-width: 480px;
-      padding: 28px 20px 48px;
+      padding: 26px 20px 48px;
       flex: 1;
     }
 
@@ -123,38 +145,47 @@
 
     /* 타이틀 영역 */
     .hero-section {
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
     .step-label {
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       color: var(--text-secondary);
       margin-bottom: 6px;
     }
 
     .page-title {
-      font-size: 28px;
+      font-size: 27px;
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.2;
       color: var(--text-primary);
     }
 
+    .page-title-ko {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      letter-spacing: -0.01em;
+    }
+
     .page-subtitle {
-      margin-top: 8px;
+      margin-top: 10px;
       font-size: 15px;
       line-height: 1.45;
-      color: var(--text-secondary);
+      color: var(--text-primary);
     }
 
     /* 1페이지: 4x4 그리드 (4~19명) */
     .grid-16 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      gap: 11px;
     }
 
     .count-btn {
@@ -170,6 +201,7 @@
       cursor: pointer;
       box-shadow: var(--shadow-sm);
       transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+      padding: 6px;
     }
 
     .count-btn:hover {
@@ -186,20 +218,27 @@
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--text-primary);
+      line-height: 1.1;
     }
 
     .count-unit {
-      font-size: 12px;
+      font-size: 11.5px;
+      color: var(--text-primary);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .count-unit-ko {
+      font-size: 10.5px;
       color: var(--text-secondary);
-      margin-top: 2px;
-      font-weight: 400;
+      margin-top: 1px;
     }
 
     /* 2페이지: 설명 카드 */
     .apple-card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 22px;
       box-shadow: var(--shadow-md);
       border: 1px solid var(--border-light);
       margin-bottom: 20px;
@@ -214,27 +253,27 @@
     .guide-item {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 13px;
     }
 
     .guide-badge {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       background: var(--bg-subtle);
       color: var(--text-primary);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      margin-top: 1px;
+      margin-top: 2px;
     }
 
     .guide-text {
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.45;
       color: var(--text-primary);
     }
 
@@ -250,8 +289,8 @@
 
     .number-preview-label {
       font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-weight: 600;
+      color: var(--text-primary);
       margin-bottom: 12px;
     }
 
@@ -264,30 +303,40 @@
     .num-chip {
       background: var(--bg-subtle);
       color: var(--text-primary);
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 500;
       padding: 6px 12px;
       border-radius: 999px;
     }
 
-    /* 메인 액션 버튼 */
+    /* 액션 버튼 */
     .primary-btn {
       width: 100%;
       appearance: none;
       border: none;
       background: var(--accent-dark);
       color: #FFFFFF;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 16px 20px;
+      padding: 15px 20px;
       border-radius: var(--radius-md);
       cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       box-shadow: var(--shadow-md);
       transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .primary-btn .btn-es {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .primary-btn .btn-ko {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 2px;
     }
 
     .primary-btn:hover {
@@ -304,18 +353,28 @@
       border: 1px solid var(--border-light);
       background: var(--bg-card);
       color: var(--text-primary);
-      font-size: 15px;
-      font-weight: 600;
-      padding: 15px 20px;
+      padding: 13px 20px;
       border-radius: var(--radius-md);
       cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       box-shadow: var(--shadow-sm);
       margin-bottom: 24px;
       transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .secondary-btn .btn-es {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .secondary-btn .btn-ko {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 2px;
     }
 
     .secondary-btn:active {
@@ -323,16 +382,57 @@
       background: var(--bg-subtle);
     }
 
-    /* 3페이지: 매칭 결과 */
-    .section-header {
+    /* 3페이지: POR GRUPO 헤더 행 및 우측 순서 새로고침 버튼 */
+    .section-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 8px 0 12px;
+      gap: 10px;
+    }
+
+    .section-header-title {
       font-size: 13px;
       font-weight: 600;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin: 24px 0 12px;
     }
 
+    .order-refresh-btn {
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      padding: 7px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    .order-refresh-btn:active {
+      transform: scale(0.96);
+      background: var(--bg-subtle);
+    }
+
+    .order-refresh-es {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .order-refresh-ko {
+      font-size: 10.5px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+
+    /* 그룹 카드 및 멤버 순서 표시 */
     .teams-container {
       display: flex;
       flex-direction: column;
@@ -343,11 +443,18 @@
       background: var(--bg-card);
       border: 1px solid var(--border-light);
       border-radius: var(--radius-md);
-      padding: 18px 20px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       box-shadow: var(--shadow-sm);
+    }
+
+    .team-name-wrap {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
     }
 
     .team-name {
@@ -356,80 +463,106 @@
       color: var(--text-secondary);
     }
 
+    .team-name-ko {
+      font-size: 11.5px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
     .team-members {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
       gap: 8px;
     }
 
-    .member-pill {
+    /* 각 멤버 아이템 (번호 + Primero/Segundo/Tercero) */
+    .member-box {
       background: var(--bg-subtle);
-      color: var(--text-primary);
-      font-size: 16px;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 999px;
-      min-width: 54px;
-      text-align: center;
-    }
-
-    /* 번호순 조회 리스트 */
-    .lookup-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .lookup-row {
+      border-radius: 14px;
+      padding: 8px 13px;
+      min-width: 72px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border-light);
-      font-size: 15px;
+      justify-content: center;
+      border: 1px solid transparent;
     }
 
-    .lookup-row:last-child {
-      border-bottom: none;
-    }
-
-    .lookup-me {
-      font-weight: 600;
+    .member-num {
+      font-size: 18px;
+      font-weight: 700;
       color: var(--text-primary);
+      line-height: 1.15;
     }
 
-    .lookup-info {
+    .member-order {
+      font-size: 11px;
+      font-weight: 600;
       color: var(--text-secondary);
-      font-size: 14px;
+      margin-top: 3px;
+      letter-spacing: -0.01em;
     }
 
-    .lookup-info strong {
-      color: var(--text-primary);
-      font-weight: 600;
+    .member-order-ko {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text-tertiary);
+      margin-top: 1px;
+    }
+
+    /* Primero 전용 빨간색 강조 스타일 */
+    .member-box.is-primero {
+      background: var(--accent-red-bg);
+      border-color: rgba(255, 59, 48, 0.28);
+    }
+
+    .member-box.is-primero .member-num {
+      color: var(--accent-red);
+    }
+
+    .member-box.is-primero .member-order {
+      color: var(--accent-red);
+      font-weight: 700;
+    }
+
+    .member-box.is-primero .member-order-ko {
+      color: var(--accent-red);
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
 
-  <!-- 상단 고정 바 (우측 상단 홈 버튼 포함) -->
+  <!-- 상단 고정 바 -->
   <header>
     <div class="nav-container">
-      <div class="nav-title">Parejas</div>
+      <div class="nav-title">
+        Parejas <span class="ko-inline">짝꿍 매칭</span>
+      </div>
       <button class="home-btn" onclick="goHome()" aria-label="Ir al inicio">
         <span>Inicio</span>
+        <span class="ko-inline">홈</span>
       </button>
     </div>
   </header>
 
   <main>
-    <!-- 1단계: 인원수 선택 (4~19명, 4x4 그리드) -->
+    <!-- 1단계: 인원수 선택 (4~19명) -->
     <section id="page-1" class="page active">
       <div class="hero-section">
-        <div class="step-label">Paso 1</div>
-        <h1 class="page-title">¿Cuántos somos?</h1>
-        <p class="page-subtitle">Elige el total de personas para armar las parejas.</p>
+        <div class="step-label">
+          Paso 1 <span class="ko-inline">1단계</span>
+        </div>
+        <h1 class="page-title">
+          ¿Cuántos somos?
+          <span class="page-title-ko">총 인원수를 골라주세요.</span>
+        </h1>
+        <p class="page-subtitle">
+          Elige el total de personas para armar las parejas.
+          <span class="ko-sub">짝꿍을 지을 전체 인원수를 선택해 주세요.</span>
+        </p>
       </div>
 
       <div id="count-grid" class="grid-16"></div>
@@ -438,68 +571,112 @@
     <!-- 2단계: 번호 배정 안내 -->
     <section id="page-2" class="page">
       <div class="hero-section">
-        <div class="step-label">Paso 2 · <span id="selected-count-label"></span> personas</div>
-        <h1 class="page-title">Recuerda tu número</h1>
-        <p class="page-subtitle">Así nos numeramos antes de sortear.</p>
+        <div class="step-label">
+          Paso 2 · <span id="selected-count-es"></span> personas
+          <span class="ko-inline">(2단계 · 총 <span id="selected-count-ko"></span>명)</span>
+        </div>
+        <h1 class="page-title">
+          Recuerda tu número
+          <span class="page-title-ko">자신의 번호를 기억해 주세요</span>
+        </h1>
+        <p class="page-subtitle">
+          Así nos numeramos antes de sortear.
+          <span class="ko-sub">추첨하기 전에 아래와 같이 번호를 배정합니다.</span>
+        </p>
       </div>
 
       <div class="apple-card">
         <div class="guide-list">
           <div class="guide-item">
             <div class="guide-badge">1</div>
-            <p class="guide-text">
+            <div class="guide-text">
               La persona que tiene el celu ahorita es el <strong>número 1</strong>.
-            </p>
+              <span class="ko-sub">지금 휴대폰을 들고 앱을 실행 중인 사람이 <strong>숫자 1번</strong>입니다.</span>
+            </div>
           </div>
           <div class="guide-item">
             <div class="guide-badge">2</div>
-            <p class="guide-text">
+            <div class="guide-text">
               Quien está a su mano derecha es el <strong>2</strong>, y así siguen <strong>3, 4, 5, 6...</strong> en orden.
-            </p>
+              <span class="ko-sub">그 사람의 오른손에 가까운 사람이 <strong>2번</strong>, 이후로 <strong>3, 4, 5, 6...</strong> 순서대로 번호가 배정됩니다.</span>
+            </div>
           </div>
           <div class="guide-item">
             <div class="guide-badge">!</div>
-            <p class="guide-text">
+            <div class="guide-text">
               <strong>¡Pónganse pilas y acuérdense de su número!</strong>
-            </p>
+              <span class="ko-sub">각자 자신의 번호를 꼭 기억해 주세요!</span>
+            </div>
           </div>
         </div>
 
         <div class="divider"></div>
 
-        <div class="number-preview-label">Números en juego</div>
+        <div class="number-preview-label">
+          Números en juego
+          <span class="ko-sub">참가 번호 목록</span>
+        </div>
         <div id="number-chips" class="number-chips"></div>
       </div>
 
       <button class="primary-btn" onclick="startMatching()">
-        <span>Armar parejas</span>
+        <span class="btn-es">Armar parejas</span>
+        <span class="btn-ko">짝꿍 정하기</span>
       </button>
     </section>
 
-    <!-- 3단계: 짝꿍 결과 및 새로고침 -->
+    <!-- 3단계: 짝꿍 결과 및 순서 새로고침 -->
     <section id="page-3" class="page">
       <div class="hero-section">
-        <div class="step-label">Resultado · <span id="result-count-label"></span> personas</div>
-        <h1 class="page-title">Parejas listas</h1>
-        <p class="page-subtitle">Si quieren cambiar, dale al botón de abajo para sortear otra vez.</p>
+        <div class="step-label">
+          Resultado · <span id="result-count-es"></span> personas
+          <span class="ko-inline">(결과 · 총 <span id="result-count-ko"></span>명)</span>
+        </div>
+        <h1 class="page-title">
+          Parejas listas
+          <span class="page-title-ko">짝꿍 매칭 완료</span>
+        </h1>
+        <p class="page-subtitle">
+          Si quieren cambiar los grupos, dale al botón de abajo para sortear otra vez.
+          <span class="ko-sub">팀 구성을 바꾸고 싶다면 아래 버튼을 눌러 다시 뽑아주세요.</span>
+        </p>
       </div>
 
-      <button class="secondary-btn" onclick="renderResults()">
-        <span>↻ Mezclar de nuevo</span>
+      <button class="secondary-btn" onclick="generateNewTeams()">
+        <span class="btn-es">↻ Mezclar grupos de nuevo</span>
+        <span class="btn-ko">팀 구성 새로고침</span>
       </button>
 
-      <div class="section-header">Por grupo</div>
-      <div id="teams-list" class="teams-container"></div>
+      <!-- POR GRUPO 행 + 우측 순서 새로고침 버튼 -->
+      <div class="section-header-row">
+        <div class="section-header-title">
+          Por grupo
+          <span class="ko-sub">그룹별 매칭 및 진행 순서</span>
+        </div>
+        <button class="order-refresh-btn" onclick="shuffleOrdersOnly()">
+          <span class="order-refresh-es">↻ Cambiar orden</span>
+          <span class="order-refresh-ko">팀 내 순서만 새로고침</span>
+        </button>
+      </div>
 
-      <div class="section-header">Buscar por mi número</div>
-      <div id="lookup-list" class="lookup-card"></div>
+      <div id="teams-list" class="teams-container"></div>
     </section>
   </main>
 
   <script>
     let totalPeople = 0;
+    // 현재 구성된 그룹 배열 (예: [[1, 4], [2, 3, 5]])
+    let currentTeams = [];
+    // 각 그룹별 순서가 섞인 상태 저장
+    let currentTeamOrders = [];
 
-    // 1페이지 4~19명 버튼 생성 (4x4 = 16칸)
+    const orderLabels = [
+      { es: 'Primero', ko: '첫 번째', isFirst: true },
+      { es: 'Segundo', ko: '두 번째', isFirst: false },
+      { es: 'Tercero', ko: '세 번째', isFirst: false }
+    ];
+
+    // 1페이지: 4~19명 버튼 생성 (4x4 = 16칸)
     function initGrid() {
       const grid = document.getElementById('count-grid');
       grid.innerHTML = '';
@@ -509,13 +686,14 @@
         btn.innerHTML = `
           <span class="count-num">${i}</span>
           <span class="count-unit">personas</span>
+          <span class="count-unit-ko">${i}명</span>
         `;
         btn.onclick = () => selectCount(i);
         grid.appendChild(btn);
       }
     }
 
-    // 페이지 전환 함수
+    // 페이지 전환
     function showPage(pageNumber) {
       document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
@@ -524,23 +702,26 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 우측 상단 홈(Inicio) 버튼
+    // 홈으로 이동
     function goHome() {
       totalPeople = 0;
+      currentTeams = [];
+      currentTeamOrders = [];
       showPage(1);
     }
 
-    // 인원 선택 시 2페이지로 이동
+    // 인원수 선택 후 2페이지 이동
     function selectCount(count) {
       totalPeople = count;
-      document.getElementById('selected-count-label').textContent = count;
+      document.getElementById('selected-count-es').textContent = count;
+      document.getElementById('selected-count-ko').textContent = count;
 
       const chipsContainer = document.getElementById('number-chips');
       chipsContainer.innerHTML = '';
       for (let i = 1; i <= count; i++) {
         const chip = document.createElement('span');
         chip.className = 'num-chip';
-        chip.textContent = `N.º ${i}`;
+        chip.textContent = `N.º ${i} (${i}번)`;
         chipsContainer.appendChild(chip);
       }
 
@@ -549,12 +730,13 @@
 
     // 2페이지에서 짝꿍 정하기 클릭 시
     function startMatching() {
-      document.getElementById('result-count-label').textContent = totalPeople;
-      renderResults();
+      document.getElementById('result-count-es').textContent = totalPeople;
+      document.getElementById('result-count-ko').textContent = totalPeople;
+      generateNewTeams();
       showPage(3);
     }
 
-    // 무작위 셔플 (Fisher-Yates)
+    // 배열 무작위 섞기 (Fisher-Yates)
     function shuffleArray(arr) {
       const copy = [...arr];
       for (let i = copy.length - 1; i > 0; i--) {
@@ -564,71 +746,80 @@
       return copy;
     }
 
-    // 둘·둘·셋 매칭 및 화면 렌더링
-    function renderResults() {
+    // 새로운 팀 구성 생성 + 각 팀 내 순서 무작위 배정
+    function generateNewTeams() {
       const numbers = Array.from({ length: totalPeople }, (_, i) => i + 1);
       const shuffled = shuffleArray(numbers);
 
-      const teams = [];
+      currentTeams = [];
       let idx = 0;
 
       while (idx < shuffled.length) {
-        // 남은 인원이 3명이면 마지막 팀을 3명으로 편성
         if (shuffled.length - idx === 3) {
-          teams.push(shuffled.slice(idx, idx + 3).sort((a, b) => a - b));
+          currentTeams.push(shuffled.slice(idx, idx + 3).sort((a, b) => a - b));
           break;
         } else {
-          teams.push(shuffled.slice(idx, idx + 2).sort((a, b) => a - b));
+          currentTeams.push(shuffled.slice(idx, idx + 2).sort((a, b) => a - b));
           idx += 2;
         }
       }
 
-      // 1. 그룹별 카드 렌더링
+      assignRandomOrdersToTeams();
+      renderTeams();
+    }
+
+    // 팀 구성은 유지하고 각 팀 내의 Primero/Segundo/Tercero만 랜덤 재배정
+    function assignRandomOrdersToTeams() {
+      currentTeamOrders = currentTeams.map(team => {
+        // 팀 인원수(2명 또는 3명)에 맞춰 인덱스(0, 1 또는 0, 1, 2)를 무작위로 섞음
+        const orderIndices = shuffleArray(Array.from({ length: team.length }, (_, i) => i));
+        return team.map((memberNum, idx) => ({
+          num: memberNum,
+          orderInfo: orderLabels[orderIndices[idx]]
+        }));
+      });
+    }
+
+    // "Cambiar orden" 버튼 클릭 시 실행 (팀 구성 고정, 팀 내 순서만 변경)
+    function shuffleOrdersOnly() {
+      if (!currentTeams.length) return;
+      assignRandomOrdersToTeams();
+      renderTeams();
+    }
+
+    // 화면에 그룹 카드 렌더링
+    function renderTeams() {
       const teamsList = document.getElementById('teams-list');
       teamsList.innerHTML = '';
 
-      // 번호순 조회를 위한 매핑 데이터 저장
-      const memberMap = {};
-
-      teams.forEach((team, index) => {
+      currentTeamOrders.forEach((teamWithOrders, index) => {
         const groupNum = index + 1;
         const card = document.createElement('div');
         card.className = 'team-card';
 
-        const membersHtml = team
-          .map(num => `<span class="member-pill">${num}</span>`)
+        const membersHtml = teamWithOrders
+          .map(item => {
+            const primeroClass = item.orderInfo.isFirst ? 'is-primero' : '';
+            return `
+              <div class="member-box ${primeroClass}">
+                <span class="member-num">${item.num}</span>
+                <span class="member-order">${item.orderInfo.es}</span>
+                <span class="member-order-ko">${item.orderInfo.ko}</span>
+              </div>
+            `;
+          })
           .join('');
 
         card.innerHTML = `
-          <div class="team-name">Grupo ${groupNum}</div>
+          <div class="team-name-wrap">
+            <span class="team-name">Grupo ${groupNum}</span>
+            <span class="team-name-ko">${groupNum}그룹</span>
+          </div>
           <div class="team-members">${membersHtml}</div>
         `;
+
         teamsList.appendChild(card);
-
-        team.forEach(num => {
-          const partners = team.filter(n => n !== num);
-          memberMap[num] = {
-            groupNum,
-            partners
-          };
-        });
       });
-
-      // 2. 번호순(1번~N번) 조회 리스트 렌더링
-      const lookupList = document.getElementById('lookup-list');
-      lookupList.innerHTML = '';
-
-      for (let num = 1; num <= totalPeople; num++) {
-        const info = memberMap[num];
-        const partnerText = info.partners.join(' y ');
-        const row = document.createElement('div');
-        row.className = 'lookup-row';
-        row.innerHTML = `
-          <span class="lookup-me">N.º ${num}</span>
-          <span class="lookup-info">Grupo ${info.groupNum} · con <strong>${partnerText}</strong></span>
-        `;
-        lookupList.appendChild(row);
-      }
     }
 
     initGrid();
