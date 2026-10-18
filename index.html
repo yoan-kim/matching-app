@@ -11,19 +11,22 @@
       --bg-primary: #F5F5F7;
       --bg-card: #FFFFFF;
       --bg-subtle: #EFEFF4;
+      --bg-machine: #E8E8ED;
+      --bg-slot-bay: #D2D2D7;
       --text-primary: #1D1D1F;
       --text-secondary: #86868B;
       --text-tertiary: #A1A1A6;
       --accent-red: #FF3B30;
-      --accent-red-bg: rgba(255, 59, 48, 0.1);
+      --accent-red-bg: #FFF0EF;
+      --accent-red-border: rgba(255, 59, 48, 0.45);
       --border-light: rgba(0, 0, 0, 0.08);
       --accent-dark: #1D1D1F;
       --accent-hover: #333336;
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
       --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
     }
 
     * {
@@ -42,6 +45,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      user-select: none;
     }
 
     /* 한국어 보조 번역 스타일 */
@@ -68,14 +72,14 @@
       top: 0;
       z-index: 100;
       width: 100%;
-      background: rgba(245, 245, 247, 0.82);
+      background: rgba(245, 245, 247, 0.85);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid var(--border-light);
     }
 
     .nav-container {
-      max-width: 480px;
+      max-width: 500px;
       margin: 0 auto;
       height: 58px;
       padding: 0 20px;
@@ -91,6 +95,28 @@
       color: var(--text-primary);
       display: flex;
       align-items: baseline;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sound-btn {
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
     }
 
     .home-btn {
@@ -110,16 +136,16 @@
       transition: transform 0.15s ease, background-color 0.15s ease;
     }
 
-    .home-btn:active {
-      transform: scale(0.96);
+    .home-btn:active, .sound-btn:active {
+      transform: scale(0.95);
       background: var(--bg-subtle);
     }
 
     /* 메인 컨테이너 */
     main {
       width: 100%;
-      max-width: 480px;
-      padding: 26px 20px 48px;
+      max-width: 500px;
+      padding: 26px 20px 56px;
       flex: 1;
     }
 
@@ -133,14 +159,8 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .hero-section {
@@ -180,7 +200,7 @@
       color: var(--text-primary);
     }
 
-    /* 1단계: 4x4 그리드 (4~19명) */
+    /* 1단계: 4x4 그리드 (2~17명, 총 16칸) */
     .grid-16 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -295,7 +315,7 @@
       align-items: center;
       justify-content: center;
       box-shadow: var(--shadow-md);
-      transition: transform 0.15s ease, background-color 0.15s ease;
+      transition: transform 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
     }
 
     .primary-btn .btn-es {
@@ -308,10 +328,6 @@
       font-weight: 400;
       color: rgba(255, 255, 255, 0.7);
       margin-top: 2px;
-    }
-
-    .primary-btn:hover {
-      background: var(--accent-hover);
     }
 
     .primary-btn:active {
@@ -333,7 +349,7 @@
       justify-content: center;
       box-shadow: var(--shadow-sm);
       margin-bottom: 24px;
-      transition: transform 0.15s ease, background-color 0.15s ease;
+      transition: transform 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
     }
 
     .secondary-btn .btn-es {
@@ -353,12 +369,17 @@
       background: var(--bg-subtle);
     }
 
-    /* 3단계: POR GRUPO 헤더 행 및 우측 순서 새로고침 버튼 */
+    .disabled-action {
+      opacity: 0.5 !important;
+      pointer-events: none !important;
+    }
+
+    /* 3단계: POR GRUPO 헤더 행 및 우측 순서 새로고침 */
     .section-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: 8px 0 12px;
+      margin: 8px 0 14px;
       gap: 10px;
     }
 
@@ -375,7 +396,7 @@
       border: 1px solid var(--border-light);
       background: var(--bg-card);
       color: var(--text-primary);
-      padding: 7px 12px;
+      padding: 7px 14px;
       border-radius: 999px;
       cursor: pointer;
       display: inline-flex;
@@ -403,103 +424,322 @@
       margin-top: 1px;
     }
 
-    /* 그룹 카드 및 멤버 순서 표시 */
+    /* ==========================================
+       실제 슬롯머신 기기 디자인 (Apple Minimalist Slot Machine)
+       ========================================== */
     .teams-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 18px;
     }
 
-    .team-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 16px 18px;
+    .slot-machine-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-right: 18px; /* 우측 슬롯 레버 공간 */
+    }
+
+    .slot-machine-cabinet {
+      width: 100%;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F2F2F7 100%);
+      border: 1.5px solid rgba(0, 0, 0, 0.1);
+      border-radius: 22px;
+      padding: 14px 16px 16px;
+      box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.06),
+        inset 0 2px 0 rgba(255, 255, 255, 0.9);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 슬롯머신 상단 전광판 헤더 */
+    .machine-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      box-shadow: var(--shadow-sm);
+      margin-bottom: 12px;
+      padding: 0 4px;
     }
 
-    .team-name-wrap {
+    .machine-group-badge {
       display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
+      align-items: baseline;
+      gap: 6px;
     }
 
-    .team-name {
+    .machine-group-es {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .machine-group-ko {
+      font-size: 12px;
+      font-weight: 500;
       color: var(--text-secondary);
     }
 
-    .team-name-ko {
-      font-size: 11.5px;
-      color: var(--text-tertiary);
-      margin-top: 2px;
-    }
-
-    .team-members {
+    /* 상단 또롱또롱 LED 램프 */
+    .machine-leds {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
+      background: var(--bg-subtle);
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .member-box {
-      background: var(--bg-subtle);
-      border-radius: 14px;
-      padding: 8px 13px;
-      min-width: 72px;
+    .led-bulb {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #C7C7CC;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .slot-machine-cabinet.spinning .led-bulb {
+      animation: ledBlink 0.45s infinite alternate;
+    }
+
+    .slot-machine-cabinet.spinning .led-bulb:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .slot-machine-cabinet.spinning .led-bulb:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .slot-machine-cabinet.done .led-bulb.first-led {
+      background: var(--accent-red);
+      box-shadow: 0 0 6px rgba(255, 59, 48, 0.6);
+    }
+
+    @keyframes ledBlink {
+      0% { background: #C7C7CC; box-shadow: none; }
+      100% { background: var(-- text-primary); box-shadow: 0 0 6px rgba(0, 0, 0, 0.3); }
+    }
+
+    /* 슬롯머신 유리창 내부 프레임 (2칸 또는 3칸) */
+    .machine-reel-bay {
+      background: var(--bg-slot-bay);
+      border-radius: 16px;
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .reels-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .reels-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .reels-grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* 개별 슬롯 릴 컬럼 */
+    .reel-unit {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 6px 6px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    /* 원통형 회전 창 (위아래 입체 음영) */
+    .reel-drum-window {
+      width: 100%;
+      height: 58px;
+      background: linear-gradient(
+        180deg,
+        #E5E5EA 0%,
+        #FFFFFF 25%,
+        #FFFFFF 75%,
+        #E5E5EA 100%
+      );
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 4px 7px rgba(0, 0, 0, 0.09), inset 0 -4px 7px rgba(0, 0, 0, 0.09);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 중앙 가이드라인 */
+    .reel-drum-window::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.04);
+      pointer-events: none;
+    }
+
+    /* 돌아가는 숫자 */
+    .reel-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      display: inline-block;
+    }
+
+    /* 회전 중 위아래로 빠르게 움직이는 모션 */
+    @keyframes verticalSlotBlur {
+      0% { transform: translateY(-22px) scaleY(1.25); filter: blur(1.5px); opacity: 0.65; }
+      50% { transform: translateY(0px) scaleY(1.1); filter: blur(1px); opacity: 0.9; }
+      100% { transform: translateY(22px) scaleY(1.25); filter: blur(1.5px); opacity: 0.65; }
+    }
+
+    .reel-unit.is-spinning .reel-number {
+      animation: verticalSlotBlur 0.09s linear infinite;
+    }
+
+    /* "또롱!" 하고 멈출 때 통통 튀는 모션 */
+    @keyframes reelStopBounce {
+      0% { transform: translateY(-18px) scale(0.9); }
+      55% { transform: translateY(5px) scale(1.08); }
+      80% { transform: translateY(-2px) scale(0.98); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .reel-unit.locked .reel-number {
+      animation: reelStopBounce 0.32s cubic-bezier(0.22, 1.35, 0.36, 1) forwards;
+    }
+
+    /* 하단 순서 라벨 (Primero / Segundo / Tercero) */
+    .reel-order-box {
+      margin-top: 8px;
+      text-align: center;
+      min-height: 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border: 1px solid transparent;
     }
 
-    .member-num {
-      font-size: 18px;
+    .reel-order-es {
+      font-size: 12px;
       font-weight: 700;
-      color: var(--text-primary);
+      color: var(--text-secondary);
       line-height: 1.15;
     }
 
-    .member-order {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-top: 3px;
-      letter-spacing: -0.01em;
-    }
-
-    .member-order-ko {
-      font-size: 10px;
+    .reel-order-ko {
+      font-size: 10.5px;
       font-weight: 400;
       color: var(--text-tertiary);
-      margin-top: 1px;
+      margin-top: 2px;
+      line-height: 1.1;
     }
 
-    /* Primero 전용 빨간색 강조 */
-    .member-box.is-primero {
+    /* ==========================================
+       Primero (먼저 발표할 사람) 빨간색 하이라이트
+       ========================================== */
+    .reel-unit.is-primero {
       background: var(--accent-red-bg);
-      border-color: rgba(255, 59, 48, 0.28);
+      border-color: var(--accent-red);
+      box-shadow: 0 4px 14px rgba(255, 59, 48, 0.2);
+      transform: translateY(-2px);
     }
 
-    .member-box.is-primero .member-num {
+    .reel-unit.is-primero .reel-drum-window {
+      background: linear-gradient(
+        180deg,
+        #FFD7D5 0%,
+        #FFFFFF 25%,
+        #FFFFFF 75%,
+        #FFD7D5 100%
+      );
+      border-color: var(--accent-red-border);
+    }
+
+    .reel-unit.is-primero .reel-number {
       color: var(--accent-red);
     }
 
-    .member-box.is-primero .member-order {
+    .reel-unit.is-primero .reel-order-es {
       color: var(--accent-red);
-      font-weight: 700;
+      font-weight: 800;
     }
 
-    .member-box.is-primero .member-order-ko {
+    .reel-unit.is-primero .reel-order-ko {
       color: var(--accent-red);
-      opacity: 0.85;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    /* ==========================================
+       우측 슬롯머신 손잡이(레버) 그래픽 & 당김 모션
+       ========================================== */
+    .slot-lever {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 76px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lever-mount {
+      position: absolute;
+      left: -2px;
+      bottom: 14px;
+      width: 10px;
+      height: 24px;
+      background: #C7C7CC;
+      border-radius: 0 6px 6px 0;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .lever-stick {
+      position: absolute;
+      bottom: 24px;
+      left: 5px;
+      width: 5px;
+      height: 38px;
+      background: linear-gradient(90deg, #8E8E93, #AEAEB2);
+      border-radius: 4px;
+      transform-origin: bottom center;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .lever-knob {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #FF6961, #FF3B30 70%, #C91F16 100%);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    /* 레버 당김 애니메이션 */
+    .slot-machine-wrap.pulling .lever-stick {
+      transform: rotateX(55deg) scaleY(0.45);
     }
   </style>
 </head>
@@ -511,15 +751,20 @@
       <div class="nav-title">
         Parejas <span class="ko-inline">짝꿍 매칭</span>
       </div>
-      <button class="home-btn" onclick="goHome()" aria-label="Ir al inicio">
-        <span>Inicio</span>
-        <span class="ko-inline">홈</span>
-      </button>
+      <div class="nav-actions">
+        <button id="sound-toggle" class="sound-btn" onclick="toggleSound()" title="Sonido (효과음)">
+          🔊
+        </button>
+        <button class="home-btn" onclick="goHome()" aria-label="Ir al inicio">
+          <span>Inicio</span>
+          <span class="ko-inline">홈</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <main>
-    <!-- 1단계: 인원수 선택 (4~19명) -->
+    <!-- 1단계: 인원수 선택 (2~17명, 4x4 그리드 총 16칸) -->
     <section id="page-1" class="page active">
       <div class="hero-section">
         <div class="step-label">
@@ -538,7 +783,7 @@
       <div id="count-grid" class="grid-16"></div>
     </section>
 
-    <!-- 2단계: 번호 배정 안내 (참가자 번호목록 완전 제거) -->
+    <!-- 2단계: 번호 배정 안내 -->
     <section id="page-2" class="page">
       <div class="hero-section">
         <div class="step-label">
@@ -581,13 +826,13 @@
         </div>
       </div>
 
-      <button class="primary-btn" onclick="startMatching()">
-        <span class="btn-es">Armar parejas</span>
-        <span class="btn-ko">짝꿍 정하기</span>
+      <button id="btn-start-match" class="primary-btn" onclick="startMatching()">
+        <span class="btn-es">🎰 Armar parejas</span>
+        <span class="btn-ko">슬롯머신으로 짝꿍 정하기</span>
       </button>
     </section>
 
-    <!-- 3단계: 짝꿍 결과 및 순서 새로고침 -->
+    <!-- 3단계: 슬롯머신 그룹 매칭 및 순서 결과 -->
     <section id="page-3" class="page">
       <div class="hero-section">
         <div class="step-label">
@@ -604,17 +849,17 @@
         </p>
       </div>
 
-      <button class="secondary-btn" onclick="generateNewTeams()">
-        <span class="btn-es">↻ Mezclar grupos de nuevo</span>
-        <span class="btn-ko">팀 구성 새로고침</span>
+      <button id="btn-remix-teams" class="secondary-btn" onclick="spinAllMachinesNewTeams()">
+        <span class="btn-es">🎰 ↻ Mezclar grupos de nuevo</span>
+        <span class="btn-ko">슬롯머신 다시 돌려 전체 팀 새로고침</span>
       </button>
 
       <div class="section-header-row">
         <div class="section-header-title">
           Por grupo
-          <span class="ko-sub">그룹별 매칭 및 진행 순서</span>
+          <span class="ko-sub">그룹별 슬롯머신 매칭 및 진행 순서</span>
         </div>
-        <button class="order-refresh-btn" onclick="shuffleOrdersOnly()">
+        <button id="btn-remix-orders" class="order-refresh-btn" onclick="spinOrdersOnly()">
           <span class="order-refresh-es">↻ Cambiar orden</span>
           <span class="order-refresh-ko">팀 내 순서만 새로고침</span>
         </button>
@@ -628,18 +873,96 @@
     let totalPeople = 0;
     let currentTeams = [];
     let currentTeamOrders = [];
+    let isSpinning = false;
+    let soundEnabled = true;
+    let audioCtx = null;
 
+    // 기존 기능과 동일한 스페인어/한국어 순서 표기 (Primero 빨강, 나머지 회색)
     const orderLabels = [
       { es: 'Primero', ko: '첫 번째', isFirst: true },
       { es: 'Segundo', ko: '두 번째', isFirst: false },
       { es: 'Tercero', ko: '세 번째', isFirst: false }
     ];
 
-    // 1단계 그리드 초기화
+    // Web Audio API로 "또롱! 또롱! 또롱!" 효과음 생성 (외부 파일 불필요)
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    // 슬롯 회전 중 틱 소리
+    function playTickSound() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320, ctx.currentTime);
+      gain.gain.setValueAtTime(0.025, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.03);
+    }
+
+    // 릴이 멈출 때 "또롱!" 맑은 벨 소리 (릴 인덱스에 따라 음높이 변화)
+    function playTtorongSound(reelIndex, isPrimero) {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const baseFreqs = [523.25, 659.25, 783.99]; // 도(C5), 미(E5), 솔(G5)
+      const freq1 = baseFreqs[reelIndex % 3];
+      const freq2 = isPrimero ? freq1 * 1.5 : freq1 * 1.25;
+
+      // 첫 음 ("또-")
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(freq1, now);
+      gain1.gain.setValueAtTime(0.11, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.14);
+
+      // 두 번째 음 ("-롱!")
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(freq2, now + 0.065);
+      gain2.gain.setValueAtTime(0.14, now + 0.065);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.065);
+      osc2.stop(now + 0.28);
+    }
+
+    // 1단계 그리드 초기화: 2명~17명 (총 16칸)
     function initGrid() {
       const grid = document.getElementById('count-grid');
       grid.innerHTML = '';
-      for (let i = 4; i <= 19; i++) {
+      for (let i = 2; i <= 17; i++) {
         const btn = document.createElement('button');
         btn.className = 'count-btn';
         btn.innerHTML = `
@@ -661,6 +984,7 @@
     }
 
     function goHome() {
+      if (isSpinning) return;
       totalPeople = 0;
       currentTeams = [];
       currentTeamOrders = [];
@@ -677,8 +1001,8 @@
     function startMatching() {
       document.getElementById('result-count-es').textContent = totalPeople;
       document.getElementById('result-count-ko').textContent = totalPeople;
-      generateNewTeams();
       showPage(3);
+      spinAllMachinesNewTeams();
     }
 
     function shuffleArray(arr) {
@@ -690,29 +1014,28 @@
       return copy;
     }
 
-    function generateNewTeams() {
-      const numbers = Array.from({ length: totalPeople }, (_, i) => i + 1);
+    // 둘·둘·셋 팀 구성 계산
+    function buildRandomTeams(count) {
+      const numbers = Array.from({ length: count }, (_, i) => i + 1);
       const shuffled = shuffleArray(numbers);
-
-      currentTeams = [];
+      const teams = [];
       let idx = 0;
 
       while (idx < shuffled.length) {
         if (shuffled.length - idx === 3) {
-          currentTeams.push(shuffled.slice(idx, idx + 3).sort((a, b) => a - b));
+          teams.push(shuffled.slice(idx, idx + 3).sort((a, b) => a - b));
           break;
         } else {
-          currentTeams.push(shuffled.slice(idx, idx + 2).sort((a, b) => a - b));
+          teams.push(shuffled.slice(idx, idx + 2).sort((a, b) => a - b));
           idx += 2;
         }
       }
-
-      assignRandomOrdersToTeams();
-      renderTeams();
+      return teams;
     }
 
-    function assignRandomOrdersToTeams() {
-      currentTeamOrders = currentTeams.map(team => {
+    // 각 팀 내 Primero / Segundo / Tercero 랜덤 배정
+    function assignOrders(teams) {
+      return teams.map(team => {
         const orderIndices = shuffleArray(Array.from({ length: team.length }, (_, i) => i));
         return team.map((memberNum, idx) => ({
           num: memberNum,
@@ -721,43 +1044,255 @@
       });
     }
 
-    function shuffleOrdersOnly() {
-      if (!currentTeams.length) return;
-      assignRandomOrdersToTeams();
-      renderTeams();
+    function setButtonsLock(locked) {
+      isSpinning = locked;
+      document.querySelectorAll('#btn-remix-teams, #btn-remix-orders, #btn-start-match').forEach(btn => {
+        if (locked) {
+          btn.classList.add('disabled-action');
+        } else {
+          btn.classList.remove('disabled-action');
+        }
+      });
     }
 
-    function renderTeams() {
+    // 그룹 수만큼 슬롯머신 HTML 뼈대 생성 (2명 그룹은 2릴, 3명 그룹은 3릴)
+    function buildSlotMachinesDOM(teamOrdersData) {
       const teamsList = document.getElementById('teams-list');
       teamsList.innerHTML = '';
 
-      currentTeamOrders.forEach((teamWithOrders, index) => {
-        const groupNum = index + 1;
-        const card = document.createElement('div');
-        card.className = 'team-card';
+      teamOrdersData.forEach((team, gIdx) => {
+        const groupNum = gIdx + 1;
+        const colClass = team.length === 3 ? 'cols-3' : 'cols-2';
 
-        const membersHtml = teamWithOrders
-          .map(item => {
-            const primeroClass = item.orderInfo.isFirst ? 'is-primero' : '';
-            return `
-              <div class="member-box ${primeroClass}">
-                <span class="member-num">${item.num}</span>
-                <span class="member-order">${item.orderInfo.es}</span>
-                <span class="member-order-ko">${item.orderInfo.ko}</span>
+        const wrap = document.createElement('div');
+        wrap.className = 'slot-machine-wrap pulling';
+        wrap.id = `machine-wrap-${gIdx}`;
+
+        let reelsHtml = '';
+        team.forEach((_, mIdx) => {
+          reelsHtml += `
+            <div class="reel-unit is-spinning" id="reel-unit-${gIdx}-${mIdx}">
+              <div class="reel-drum-window">
+                <span class="reel-number" id="reel-num-${gIdx}-${mIdx}">?</span>
               </div>
-            `;
-          })
-          .join('');
+              <div class="reel-order-box">
+                <span class="reel-order-es" id="reel-es-${gIdx}-${mIdx}">•••</span>
+                <span class="reel-order-ko" id="reel-ko-${gIdx}-${mIdx}">추첨 중</span>
+              </div>
+            </div>
+          `;
+        });
 
-        card.innerHTML = `
-          <div class="team-name-wrap">
-            <span class="team-name">Grupo ${groupNum}</span>
-            <span class="team-name-ko">${groupNum}그룹</span>
+        wrap.innerHTML = `
+          <div class="slot-machine-cabinet spinning" id="cabinet-${gIdx}">
+            <div class="machine-top-bar">
+              <div class="machine-group-badge">
+                <span class="machine-group-es">🎰 Grupo ${groupNum}</span>
+                <span class="machine-group-ko">${groupNum}그룹 (${team.length}인 슬롯)</span>
+              </div>
+              <div class="machine-leds">
+                <span class="led-bulb first-led"></span>
+                <span class="led-bulb"></span>
+                <span class="led-bulb"></span>
+              </div>
+            </div>
+            <div class="machine-reel-bay">
+              <div class="reels-grid ${colClass}">
+                ${reelsHtml}
+              </div>
+            </div>
           </div>
-          <div class="team-members">${membersHtml}</div>
+          <div class="slot-lever" aria-hidden="true">
+            <div class="lever-mount"></div>
+            <div class="lever-stick">
+              <div class="lever-knob"></div>
+            </div>
+          </div>
         `;
 
-        teamsList.appendChild(card);
+        teamsList.appendChild(wrap);
+
+        // 레버가 당겨졌다가 올라오는 모션
+        setTimeout(() => {
+          wrap.classList.remove('pulling');
+        }, 320);
+      });
+    }
+
+    // 전체 슬롯머신 회전 후 "또롱! 또롱! 또롱!" 순차 정지
+    function spinAllMachinesNewTeams() {
+      if (isSpinning) return;
+      setButtonsLock(true);
+
+      currentTeams = buildRandomTeams(totalPeople);
+      currentTeamOrders = assignOrders(currentTeams);
+
+      buildSlotMachinesDOM(currentTeamOrders);
+
+      const allReels = [];
+      currentTeamOrders.forEach((team, gIdx) => {
+        team.forEach((memberData, mIdx) => {
+          allReels.push({
+            gIdx,
+            mIdx,
+            teamLength: team.length,
+            finalData: memberData,
+            unitEl: document.getElementById(`reel-unit-${gIdx}-${mIdx}`),
+            numEl: document.getElementById(`reel-num-${gIdx}-${mIdx}`),
+            esEl: document.getElementById(`reel-es-${gIdx}-${mIdx}`),
+            koEl: document.getElementById(`reel-ko-${gIdx}-${mIdx}`),
+            locked: false
+          });
+        });
+      });
+
+      // 슬롯 돌아가는 동안 숫자 랜덤 변경 + 틱 사운드
+      let tickCounter = 0;
+      const spinTimer = setInterval(() => {
+        tickCounter++;
+        if (tickCounter % 2 === 0) playTickSound();
+
+        allReels.forEach(r => {
+          if (!r.locked) {
+            r.numEl.textContent = Math.floor(Math.random() * totalPeople) + 1;
+          }
+        });
+      }, 55);
+
+      // 또롱! 또롱! 또롱! 순차 정지 타이밍
+      const baseWait = 550;
+      const stepWait = 230;
+
+      allReels.forEach((r, idx) => {
+        setTimeout(() => {
+          r.locked = true;
+          r.unitEl.classList.remove('is-spinning');
+          r.unitEl.classList.add('locked');
+
+          // 최종 번호 및 Primero / Segundo / Tercero 반영
+          r.numEl.textContent = r.finalData.num;
+          r.esEl.textContent = r.finalData.orderInfo.es;
+          r.koEl.textContent = r.finalData.orderInfo.ko;
+
+          if (r.finalData.orderInfo.isFirst) {
+            r.unitEl.classList.add('is-primero');
+          }
+
+          // "또롱!" 사운드 재생
+          playTtorongSound(r.mIdx, r.finalData.orderInfo.isFirst);
+
+          // 해당 그룹의 마지막 릴이 멈추면 슬롯머신 기기 상태 완료 표시
+          if (r.mIdx === r.teamLength - 1) {
+            const cabinet = document.getElementById(`cabinet-${r.gIdx}`);
+            if (cabinet) {
+              cabinet.classList.remove('spinning');
+              cabinet.classList.add('done');
+            }
+          }
+
+          // 전체 마지막 릴 정지 시 종료
+          if (idx === allReels.length - 1) {
+            clearInterval(spinTimer);
+            setTimeout(() => {
+              setButtonsLock(false);
+            }, 250);
+          }
+        }, baseWait + idx * stepWait);
+      });
+    }
+
+    // 팀 구성은 그대로 유지하고 팀 내 순서(Primero 빨강)만 슬롯 회전
+    function spinOrdersOnly() {
+      if (isSpinning || !currentTeams.length) return;
+      setButtonsLock(true);
+
+      currentTeamOrders = assignOrders(currentTeams);
+
+      const allReels = [];
+
+      currentTeamOrders.forEach((team, gIdx) => {
+        const wrap = document.getElementById(`machine-wrap-${gIdx}`);
+        const cabinet = document.getElementById(`cabinet-${gIdx}`);
+        if (wrap) {
+          wrap.classList.add('pulling');
+          setTimeout(() => wrap.classList.remove('pulling'), 300);
+        }
+        if (cabinet) {
+          cabinet.classList.remove('done');
+          cabinet.classList.add('spinning');
+        }
+
+        team.forEach((memberData, mIdx) => {
+          const unitEl = document.getElementById(`reel-unit-${gIdx}-${mIdx}`);
+          const esEl = document.getElementById(`reel-es-${gIdx}-${mIdx}`);
+          const koEl = document.getElementById(`reel-ko-${gIdx}-${mIdx}`);
+
+          if (unitEl && esEl && koEl) {
+            unitEl.classList.remove('is-primero', 'locked');
+            unitEl.classList.add('is-spinning');
+            esEl.textContent = '•••';
+            koEl.textContent = '순서 추첨';
+
+            allReels.push({
+              gIdx,
+              mIdx,
+              teamLength: team.length,
+              finalData: memberData,
+              unitEl,
+              esEl,
+              koEl,
+              locked: false
+            });
+          }
+        });
+      });
+
+      let tickCounter = 0;
+      const spinTimer = setInterval(() => {
+        tickCounter++;
+        if (tickCounter % 2 === 0) playTickSound();
+
+        allReels.forEach(r => {
+          if (!r.locked) {
+            const randOrd = orderLabels[Math.floor(Math.random() * r.teamLength)];
+            r.esEl.textContent = randOrd.es;
+          }
+        });
+      }, 55);
+
+      const baseWait = 420;
+      const stepWait = 190;
+
+      allReels.forEach((r, idx) => {
+        setTimeout(() => {
+          r.locked = true;
+          r.unitEl.classList.remove('is-spinning');
+          r.unitEl.classList.add('locked');
+
+          r.esEl.textContent = r.finalData.orderInfo.es;
+          r.koEl.textContent = r.finalData.orderInfo.ko;
+
+          if (r.finalData.orderInfo.isFirst) {
+            r.unitEl.classList.add('is-primero');
+          }
+
+          playTtorongSound(r.mIdx, r.finalData.orderInfo.isFirst);
+
+          if (r.mIdx === r.teamLength - 1) {
+            const cabinet = document.getElementById(`cabinet-${r.gIdx}`);
+            if (cabinet) {
+              cabinet.classList.remove('spinning');
+              cabinet.classList.add('done');
+            }
+          }
+
+          if (idx === allReels.length - 1) {
+            clearInterval(spinTimer);
+            setTimeout(() => {
+              setButtonsLock(false);
+            }, 250);
+          }
+        }, baseWait + idx * stepWait);
       });
     }
 
