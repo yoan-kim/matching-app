@@ -300,7 +300,7 @@
       font-weight: 600;
     }
 
-    /* 액션 버튼 */
+    /* 메인 액션 버튼 */
     .primary-btn {
       width: 100%;
       appearance: none;
@@ -519,7 +519,7 @@
 
     @keyframes ledBlink {
       0% { background: #C7C7CC; box-shadow: none; }
-      100% { background: var(-- text-primary); box-shadow: 0 0 6px rgba(0, 0, 0, 0.3); }
+      100% { background: var(--text-primary); box-shadow: 0 0 6px rgba(0, 0, 0, 0.3); }
     }
 
     /* 슬롯머신 유리창 내부 프레임 (2칸 또는 3칸) */
@@ -558,7 +558,7 @@
       position: relative;
     }
 
-    /* 원통형 회전 창 (위아래 입체 음영) */
+    /* 원통형 회전 창 */
     .reel-drum-window {
       width: 100%;
       height: 58px;
@@ -579,7 +579,6 @@
       justify-content: center;
     }
 
-    /* 중앙 가이드라인 */
     .reel-drum-window::after {
       content: "";
       position: absolute;
@@ -601,7 +600,7 @@
       display: inline-block;
     }
 
-    /* 회전 중 위아래로 빠르게 움직이는 모션 */
+    /* 3초간 위아래로 빠르게 회전하는 모션 */
     @keyframes verticalSlotBlur {
       0% { transform: translateY(-22px) scaleY(1.25); filter: blur(1.5px); opacity: 0.65; }
       50% { transform: translateY(0px) scaleY(1.1); filter: blur(1px); opacity: 0.9; }
@@ -612,7 +611,7 @@
       animation: verticalSlotBlur 0.09s linear infinite;
     }
 
-    /* "또롱!" 하고 멈출 때 통통 튀는 모션 */
+    /* "또롱!" 하고 멈출 때 바운스 모션 */
     @keyframes reelStopBounce {
       0% { transform: translateY(-18px) scale(0.9); }
       55% { transform: translateY(5px) scale(1.08); }
@@ -737,7 +736,6 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
     }
 
-    /* 레버 당김 애니메이션 */
     .slot-machine-wrap.pulling .lever-stick {
       transform: rotateX(55deg) scaleY(0.45);
     }
@@ -877,14 +875,12 @@
     let soundEnabled = true;
     let audioCtx = null;
 
-    // 기존 기능과 동일한 스페인어/한국어 순서 표기 (Primero 빨강, 나머지 회색)
     const orderLabels = [
       { es: 'Primero', ko: '첫 번째', isFirst: true },
       { es: 'Segundo', ko: '두 번째', isFirst: false },
       { es: 'Tercero', ko: '세 번째', isFirst: false }
     ];
 
-    // Web Audio API로 "또롱! 또롱! 또롱!" 효과음 생성 (외부 파일 불필요)
     function getAudioContext() {
       if (!audioCtx) {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -903,7 +899,6 @@
       document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊' : '🔇';
     }
 
-    // 슬롯 회전 중 틱 소리
     function playTickSound() {
       if (!soundEnabled) return;
       const ctx = getAudioContext();
@@ -922,18 +917,16 @@
       osc.stop(ctx.currentTime + 0.03);
     }
 
-    // 릴이 멈출 때 "또롱!" 맑은 벨 소리 (릴 인덱스에 따라 음높이 변화)
     function playTtorongSound(reelIndex, isPrimero) {
       if (!soundEnabled) return;
       const ctx = getAudioContext();
       if (!ctx) return;
 
       const now = ctx.currentTime;
-      const baseFreqs = [523.25, 659.25, 783.99]; // 도(C5), 미(E5), 솔(G5)
+      const baseFreqs = [523.25, 659.25, 783.99]; // C5, E5, G5
       const freq1 = baseFreqs[reelIndex % 3];
       const freq2 = isPrimero ? freq1 * 1.5 : freq1 * 1.25;
 
-      // 첫 음 ("또-")
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.type = 'sine';
@@ -945,7 +938,6 @@
       osc1.start(now);
       osc1.stop(now + 0.14);
 
-      // 두 번째 음 ("-롱!")
       const osc2 = ctx.createOscillator();
       const gain2 = ctx.createGain();
       osc2.type = 'sine';
@@ -958,7 +950,6 @@
       osc2.stop(now + 0.28);
     }
 
-    // 1단계 그리드 초기화: 2명~17명 (총 16칸)
     function initGrid() {
       const grid = document.getElementById('count-grid');
       grid.innerHTML = '';
@@ -1014,7 +1005,6 @@
       return copy;
     }
 
-    // 둘·둘·셋 팀 구성 계산
     function buildRandomTeams(count) {
       const numbers = Array.from({ length: count }, (_, i) => i + 1);
       const shuffled = shuffleArray(numbers);
@@ -1033,7 +1023,6 @@
       return teams;
     }
 
-    // 각 팀 내 Primero / Segundo / Tercero 랜덤 배정
     function assignOrders(teams) {
       return teams.map(team => {
         const orderIndices = shuffleArray(Array.from({ length: team.length }, (_, i) => i));
@@ -1055,7 +1044,6 @@
       });
     }
 
-    // 그룹 수만큼 슬롯머신 HTML 뼈대 생성 (2명 그룹은 2릴, 3명 그룹은 3릴)
     function buildSlotMachinesDOM(teamOrdersData) {
       const teamsList = document.getElementById('teams-list');
       teamsList.innerHTML = '';
@@ -1112,14 +1100,16 @@
 
         teamsList.appendChild(wrap);
 
-        // 레버가 당겨졌다가 올라오는 모션
         setTimeout(() => {
           wrap.classList.remove('pulling');
         }, 320);
       });
     }
 
-    // 전체 슬롯머신 회전 후 "또롱! 또롱! 또롱!" 순차 정지
+    /* =================================================================
+       첫 번째 슬롯머신은 3초 동안 충분히 돌아간 뒤 팀을 확정하고,
+       그 이후 슬롯머신들은 기존과 동일하게 빠른 속도(0.23초 간격)로 차례로 멈춤
+       ================================================================= */
     function spinAllMachinesNewTeams() {
       if (isSpinning) return;
       setButtonsLock(true);
@@ -1146,7 +1136,7 @@
         });
       });
 
-      // 슬롯 돌아가는 동안 숫자 랜덤 변경 + 틱 사운드
+      // 3초 이상 돌아가는 동안 계속 틱 사운드와 숫자 난수 롤링
       let tickCounter = 0;
       const spinTimer = setInterval(() => {
         tickCounter++;
@@ -1159,8 +1149,9 @@
         });
       }, 55);
 
-      // 또롱! 또롱! 또롱! 순차 정지 타이밍
-      const baseWait = 550;
+      // 첫 번째 슬롯머신 시작 대기 시간: 3초 (3000ms)
+      // 각 슬롯이 멈추는 간격: 기존과 동일한 230ms
+      const baseWait = 3000;
       const stepWait = 230;
 
       allReels.forEach((r, idx) => {
@@ -1169,7 +1160,6 @@
           r.unitEl.classList.remove('is-spinning');
           r.unitEl.classList.add('locked');
 
-          // 최종 번호 및 Primero / Segundo / Tercero 반영
           r.numEl.textContent = r.finalData.num;
           r.esEl.textContent = r.finalData.orderInfo.es;
           r.koEl.textContent = r.finalData.orderInfo.ko;
@@ -1178,10 +1168,8 @@
             r.unitEl.classList.add('is-primero');
           }
 
-          // "또롱!" 사운드 재생
           playTtorongSound(r.mIdx, r.finalData.orderInfo.isFirst);
 
-          // 해당 그룹의 마지막 릴이 멈추면 슬롯머신 기기 상태 완료 표시
           if (r.mIdx === r.teamLength - 1) {
             const cabinet = document.getElementById(`cabinet-${r.gIdx}`);
             if (cabinet) {
@@ -1190,18 +1178,17 @@
             }
           }
 
-          // 전체 마지막 릴 정지 시 종료
           if (idx === allReels.length - 1) {
             clearInterval(spinTimer);
             setTimeout(() => {
               setButtonsLock(false);
             }, 250);
           }
-        }, baseWait + idx * stepWait);
+        }, baseWait + (idx * stepWait));
       });
     }
 
-    // 팀 구성은 그대로 유지하고 팀 내 순서(Primero 빨강)만 슬롯 회전
+    // 팀 구성 유지 + 팀 내 순서만 새로고침 (이 역시 첫 번째 슬롯머신 2초간 회전 후 순차 확정)
     function spinOrdersOnly() {
       if (isSpinning || !currentTeams.length) return;
       setButtonsLock(true);
@@ -1260,7 +1247,7 @@
         });
       }, 55);
 
-      const baseWait = 420;
+      const baseWait = 1800;
       const stepWait = 190;
 
       allReels.forEach((r, idx) => {
@@ -1292,7 +1279,7 @@
               setButtonsLock(false);
             }, 250);
           }
-        }, baseWait + idx * stepWait);
+        }, baseWait + (idx * stepWait));
       });
     }
 
